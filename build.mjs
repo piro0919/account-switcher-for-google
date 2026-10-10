@@ -12,6 +12,6 @@ await build({
   target: "firefox140",
 });
 
-for (const file of ["manifest.json"]) {
+for (const file of ["manifest.json", "icons"]) {
   await cp(`src/${file}`, `dist/${file}`, { recursive: true });
 }
