@@ -1,7 +1,13 @@
 {
   "addons": {
     "account-switcher-for-google@piro0919": {
-      "updates": []
+      "updates": [
+        {
+          "version": "0.1.0",
+          "update_link": "https://github.com/piro0919/account-switcher-for-google/releases/download/v0.1.0/account-switcher-for-google-0.1.0.xpi",
+          "update_hash": "sha256:ec53e2dbe5ecef758561f42da2bfdacf3124ce4ceef4105b1f6cd63c9ff2482a"
+        }
+      ]
     }
   }
 }
