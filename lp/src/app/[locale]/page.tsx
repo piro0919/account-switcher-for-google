@@ -1,9 +1,10 @@
-import { Download, Github, Search } from "lucide-react";
+import { Coffee, Download, Github, Search } from "lucide-react";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 
 const GITHUB_URL = "https://github.com/piro0919/account-switcher-for-google";
+const COFFEE_URL = "https://buymeacoffee.com/piro0919";
 const RELEASE_URL = "https://github.com/piro0919/account-switcher-for-google/releases/latest";
 
 type PageProps = {
@@ -80,12 +81,21 @@ export default async function Page({ params }: PageProps): Promise<ReactNode> {
             piro0919
           </a>
         </span>
-        <a
-          className="font-mono text-xs text-ink-2 transition-colors hover:text-navy"
-          href={GITHUB_URL}
-        >
-          {t("Hero.viewOnGithub")}
-        </a>
+        <div className="flex items-center gap-5">
+          <a
+            className="inline-flex items-center gap-1.5 font-mono text-xs text-ink-2 transition-colors hover:text-navy"
+            href={COFFEE_URL}
+          >
+            <Coffee size={13} strokeWidth={1.75} />
+            Buy Me a Coffee
+          </a>
+          <a
+            className="font-mono text-xs text-ink-2 transition-colors hover:text-navy"
+            href={GITHUB_URL}
+          >
+            {t("Hero.viewOnGithub")}
+          </a>
+        </div>
       </footer>
     </main>
   );
