@@ -1,0 +1,16 @@
+{
+  "Metadata": {
+    "title": "Account Switcher for Google",
+    "description": "Google のトップページで、ほかの Google アカウントが右上のアイコンの下に並ぶ Firefox 拡張機能です。ひと押しで切り替わり、それぞれの Gmail にも飛べます。"
+  },
+  "Hero": {
+    "description": "複数の Google アカウントにログインしていると、Google のトップページで、ほかのアカウントが右上のアイコンの下に縦に並びます。押せばそのアカウントに切り替わり、左の Gmail からはそのアカウントの受信トレイが開きます。",
+    "download": "ダウンロード",
+    "viewOnGithub": "GitHub",
+    "note": "無料 · MIT ライセンス · Firefox 140 以降",
+    "title": "Google アカウントを、\nトップでひと押し。"
+  },
+  "Mockup": {
+    "images": "画像"
+  }
+}

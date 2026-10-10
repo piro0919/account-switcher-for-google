@@ -30,6 +30,7 @@ The first idea was to open Google's account popup automatically; it was dropped 
 ## Layout
 
 - `src/` extension source, built to `dist/` by `build.mjs` (esbuild). `assets/icon.png` is the original icon from ChatGPT (a toggle-switch track holding three avatars, a pun on "Switcher"); `src/icons/` are the exported sizes.
+- `lp/` the landing page (Next.js + next-intl, Vercel project root). Copied from Aikotoba's LP and restyled with the icon's navy, orange and white. Hero only, with a redrawn Google top-right as the mockup (no Google logo). Buttons are navy, not orange: white text on the orange is hard to read. "No network access" from Aikotoba's note was dropped because this extension asks Google for the account list.
 - `scripts/release.mjs` AMO unlisted signing, copied from Aikotoba. It talks to the AMO API directly because `web-ext sign` intermittently returns `Unknown JWT iss`.
 
 ## Release

@@ -1,0 +1,16 @@
+{
+  "Metadata": {
+    "title": "Account Switcher for Google",
+    "description": "A Firefox extension that lists your other Google accounts under your avatar on the Google top page. One click switches, and each has a link to its Gmail."
+  },
+  "Hero": {
+    "description": "Signed in to several Google accounts? On the Google top page, the others line up under your avatar at the top right. Click one to switch to it, or click the Gmail beside it to open that account's inbox.",
+    "download": "Download",
+    "viewOnGithub": "GitHub",
+    "note": "Free · MIT licensed · Firefox 140+",
+    "title": "Your Google accounts,\none click away."
+  },
+  "Mockup": {
+    "images": "Images"
+  }
+}

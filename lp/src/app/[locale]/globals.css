@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/* The palette comes from the extension's own icon: the navy ground, the
+   white switch track, the orange knob and the grey-blue avatars. The page
+   sits on white with navy for text and buttons; orange stays a small accent
+   because white text on it is hard to read. No light/dark switch. */
+@theme inline {
+  --color-paper: #f7f8fa;
+  --color-navy: #234c79;
+  --color-navy-deep: #1a3a5d;
+  --color-knob: #ff7200;
+  --color-knob-deep: #d65f00;
+  --color-ink-1: #14263b;
+  --color-ink-2: #5a6b82;
+  --color-mute: #7a90ad;
+  --color-card: #ffffff;
+  --color-card-line: #dfe5ee;
+  --color-hairline: rgba(20, 38, 59, 0.14);
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink-1);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Wrap Japanese at phrase boundaries */
+  word-break: auto-phrase;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-knob) 30%, transparent);
+}
+
+/* The avatar being clicked in the mockup — the page doing what the extension
+   does. Most of the cycle it sits still; for a moment a ring shows around it,
+   the way a press would. */
+@keyframes press {
+  0%,
+  60%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  64%,
+  80% {
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-knob) 45%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .press {
+    animation: press 4s ease-in-out infinite;
+  }
+}
