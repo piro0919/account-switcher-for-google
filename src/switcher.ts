@@ -6,7 +6,11 @@ export const AVATAR_SELECTOR = 'a[href^="https://accounts.google.com/SignOutOpti
 // only element with aria-expanded; opening it lists the other accounts.
 export const ACCOUNTS_SELECTOR = "[aria-expanded]";
 
-const TOP_PAGES = new Set(["www.google.com", "www.google.co.jp"]);
+export const POPUP_ORIGIN = "https://ogs.google.com";
+export const TOP_ORIGINS = ["https://www.google.com", "https://www.google.co.jp"];
+
+const EXPAND_REQUEST = "account-switcher-for-google:expand";
+const EXPAND_ACK = "account-switcher-for-google:ack";
 
 type Options = {
   attempts?: number;
@@ -38,20 +42,54 @@ export async function expand(
     }
 
     await sleep(interval);
-
-    if (target?.getAttribute("aria-expanded") === "true") return true;
   }
 
   return false;
 }
 
-/** The popup is also used by Gmail, Drive and so on; only touch the one on the top page. */
-export function isFromTopPage(referrer: string): boolean {
-  try {
-    const url = new URL(referrer);
+/**
+ * The popup iframe is shared by every Google service and only ever sees the
+ * origin as its referrer, so it cannot tell the top page from search results.
+ * The top-page script tells it instead, repeating until the iframe has loaded
+ * and answers.
+ */
+export async function requestPopupExpand(
+  win: Window,
+  { attempts = 25, interval = 200 }: Options = {},
+): Promise<boolean> {
+  let acked = false;
+  const onMessage = (event: MessageEvent) => {
+    if (event.origin === POPUP_ORIGIN && event.data?.type === EXPAND_ACK) acked = true;
+  };
 
-    return TOP_PAGES.has(url.hostname) && url.pathname === "/";
-  } catch {
-    return false;
+  win.addEventListener("message", onMessage);
+
+  try {
+    for (let i = 0; i < attempts && !acked; i += 1) {
+      // The popup frame starts as about:blank and is navigated later, so its
+      // src says nothing. The target origin keeps other frames from receiving it.
+      for (const frame of win.document.querySelectorAll("iframe")) {
+        frame.contentWindow?.postMessage({ type: EXPAND_REQUEST }, POPUP_ORIGIN);
+      }
+
+      await sleep(interval);
+    }
+  } finally {
+    win.removeEventListener("message", onMessage);
   }
+
+  return acked;
+}
+
+/** Runs `onRequest` once, the first time the top page asks this popup to expand. */
+export function listenForExpandRequest(win: Window, onRequest: () => void): void {
+  const onMessage = (event: MessageEvent) => {
+    if (!TOP_ORIGINS.includes(event.origin) || event.data?.type !== EXPAND_REQUEST) return;
+
+    (event.source as Window | null)?.postMessage({ type: EXPAND_ACK }, event.origin);
+    win.removeEventListener("message", onMessage);
+    onRequest();
+  };
+
+  win.addEventListener("message", onMessage);
 }

@@ -1,3 +1,5 @@
-import { AVATAR_SELECTOR, expand } from "./switcher";
+import { AVATAR_SELECTOR, expand, requestPopupExpand } from "./switcher";
 
-void expand(document, AVATAR_SELECTOR);
+void expand(document, AVATAR_SELECTOR).then(
+  (opened) => opened && requestPopupExpand(window),
+);

@@ -1,6 +1,11 @@
 import { Window } from "happy-dom";
 import { describe, expect, it } from "vitest";
-import { ACCOUNTS_SELECTOR, AVATAR_SELECTOR, expand, isFromTopPage } from "../src/switcher";
+import {
+  ACCOUNTS_SELECTOR,
+  AVATAR_SELECTOR,
+  expand,
+  listenForExpandRequest,
+} from "../src/switcher";
 
 const setup = (html: string) => {
   const window = new Window({ url: "https://www.google.com/" });
@@ -72,14 +77,34 @@ describe("expand", () => {
   });
 });
 
-describe("isFromTopPage", () => {
-  it.each([
-    ["https://www.google.com/", true],
-    ["https://www.google.co.jp/", true],
-    ["https://www.google.com/search?q=a", false],
-    ["https://mail.google.com/mail/u/0/", false],
-    ["", false],
-  ])("%s → %s", (referrer, expected) => {
-    expect(isFromTopPage(referrer)).toBe(expected);
+describe("listenForExpandRequest", () => {
+  const popup = () => new Window({ url: "https://ogs.google.com/u/0/widget/account" });
+  const send = (win: Window, origin: string, type: string) =>
+    win.dispatchEvent(new win.MessageEvent("message", { origin, data: { type } }));
+
+  it("expands once when the top page asks", () => {
+    const win = popup();
+    let calls = 0;
+
+    listenForExpandRequest(win as unknown as globalThis.Window, () => {
+      calls += 1;
+    });
+    send(win, "https://www.google.co.jp", "account-switcher-for-google:expand");
+    send(win, "https://www.google.co.jp", "account-switcher-for-google:expand");
+
+    expect(calls).toBe(1);
+  });
+
+  it("ignores other origins and messages", () => {
+    const win = popup();
+    let calls = 0;
+
+    listenForExpandRequest(win as unknown as globalThis.Window, () => {
+      calls += 1;
+    });
+    send(win, "https://mail.google.com", "account-switcher-for-google:expand");
+    send(win, "https://www.google.com", "something-else");
+
+    expect(calls).toBe(0);
   });
 });

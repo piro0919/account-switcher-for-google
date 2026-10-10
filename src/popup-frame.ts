@@ -1,3 +1,3 @@
-import { ACCOUNTS_SELECTOR, expand, isFromTopPage } from "./switcher";
+import { ACCOUNTS_SELECTOR, expand, listenForExpandRequest } from "./switcher";
 
-if (isFromTopPage(document.referrer)) void expand(document, ACCOUNTS_SELECTOR);
+listenForExpandRequest(window, () => void expand(document, ACCOUNTS_SELECTOR));

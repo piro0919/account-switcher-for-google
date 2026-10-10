@@ -4,17 +4,18 @@ Firefox extension. Opening www.google.com or www.google.co.jp (the top page only
 
 ## What the first version does (and only this)
 
-- `src/content.ts` runs on the top page and clicks the avatar (`a[href^="https://accounts.google.com/SignOutOptions"]`) until Google sets `aria-expanded="true"`.
-- `src/popup-frame.ts` runs inside the popup iframe (`ogs.google.com/*/widget/account`) and clicks the only `[aria-expanded]` element, the current account card, which lists the other accounts.
+- `src/content.ts` runs on the top page and clicks the avatar (`a[href^="https://accounts.google.com/SignOutOptions"]`) until Google sets `aria-expanded="true"`, then posts a message to the popup iframe.
+- `src/popup-frame.ts` runs inside the popup iframe (`ogs.google.com/*/widget/account`). On that message it clicks the only `[aria-expanded]` element, the current account card, which lists the other accounts.
 - No popup, no settings, no icon in the toolbar.
 
 ## Decisions
 
 - Top page only, by request. Search results, Gmail, Drive etc. are untouched.
-- The same popup iframe is used by every Google service, so `popup-frame.ts` acts only when `document.referrer` is the top page.
+- The same popup iframe is used by every Google service, and its `document.referrer` is cut down to the origin, so it cannot tell the top page from search results. It acts only when the top-page script asks through `postMessage`.
+- The popup iframe is `about:blank` in its `src` and navigated later, so the message goes to every iframe with `targetOrigin` set to `https://ogs.google.com`; the browser drops it for the rest.
 - Each click is paired with a one-shot `preventDefault` listener. A click that lands before Google attaches its handler would otherwise follow the avatar link to SignOutOptions; this way it does nothing and the next retry catches it.
 - Name: "Google Account Switcher" was taken on AMO (slug `google-account-switcher`), so the brand goes last.
-- The DOM was read from a real signed-in session. Playwright's browser is not signed in to Google, so check changes with `web-ext run --firefox-profile <your profile>` instead; it copies the profile, so the original is untouched.
+- The DOM was read from a real signed-in session. Playwright's browser is not signed in to Google, so check changes with `web-ext run --firefox-profile <your profile>` instead; it copies the profile, so the original is untouched. The copy goes to `$TMPDIR/copy-*` and is removed only when Firefox exits; killing web-ext leaves it behind (6.5 GB each, which filled the disk once). Quit Firefox itself, not web-ext.
 
 ## Commands
 
