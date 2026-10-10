@@ -28,17 +28,25 @@ function gmailLink(authuser: number, model: HTMLElement | null): HTMLAnchorEleme
 }
 
 function render(avatar: HTMLElement, accounts: Account[]): void {
-  // Measured on the link, not the img: the img may not have loaded yet and
-  // would report a height of 0. The photo sits centred in the link.
-  const box = avatar.getBoundingClientRect();
-  const centerX = box.left + box.width / 2 + window.scrollX;
-  const centerY = box.top + box.height / 2 + window.scrollY;
   const model = document.querySelector<HTMLElement>(GMAIL_SELECTOR);
   const list = document.createElement("div");
+  const place = () => {
+    // Measured on the link, not the img: the img may not have loaded yet and
+    // would report a height of 0. The photo sits centred in the link.
+    const box = avatar.getBoundingClientRect();
+    const centerX = box.left + box.width / 2 + window.scrollX;
+    const centerY = box.top + box.height / 2 + window.scrollY;
+
+    list.style.left = `${centerX + SIZE / 2}px`;
+    list.style.top = `${centerY + SIZE / 2 + GAP}px`;
+  };
 
   // Anchored by its right edge so the circles stay under the avatar whatever
   // width the Gmail labels take.
-  list.style.cssText = `position:absolute;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:${GAP}px;left:${centerX + SIZE / 2}px;top:${centerY + SIZE / 2 + GAP}px;transform:translateX(-100%)`;
+  list.style.cssText = `position:absolute;z-index:1;display:flex;flex-direction:column;align-items:flex-end;gap:${GAP}px;transform:translateX(-100%)`;
+  place();
+  // The avatar follows the right edge of the window.
+  window.addEventListener("resize", place);
 
   for (const account of accounts) {
     const row = document.createElement("div");
