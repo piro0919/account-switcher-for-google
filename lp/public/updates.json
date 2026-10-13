@@ -6,6 +6,11 @@
           "version": "0.1.0",
           "update_link": "https://github.com/piro0919/account-switcher-for-google/releases/download/v0.1.0/account-switcher-for-google-0.1.0.xpi",
           "update_hash": "sha256:ec53e2dbe5ecef758561f42da2bfdacf3124ce4ceef4105b1f6cd63c9ff2482a"
+        },
+        {
+          "version": "0.2.0",
+          "update_link": "https://github.com/piro0919/account-switcher-for-google/releases/download/v0.2.0/account-switcher-for-google-0.2.0.xpi",
+          "update_hash": "sha256:a30cc0db714c6fe2bb240d4f7ae00a5435684505baf21fe9c356c745bb47841a"
         }
       ]
     }
