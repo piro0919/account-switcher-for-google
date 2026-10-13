@@ -113,7 +113,8 @@ const OTHERS: Avatar[] = [
 ];
 
 /* The top right of the Google top page, redrawn: Google's own bar on the
-   first row, and the two rows the extension adds under the avatar. The
+   first row, and the two rows the extension adds under the avatar, each
+   with its own Gmail link and app launcher. The
    second avatar is the one being clicked. No Google logo. */
 function PageMockup({ imagesLabel }: { imagesLabel: string }): ReactNode {
   return (
@@ -134,6 +135,7 @@ function PageMockup({ imagesLabel }: { imagesLabel: string }): ReactNode {
           {OTHERS.map((avatar, index) => (
             <div className="flex items-center gap-4" key={avatar.letter}>
               <span>Gmail</span>
+              <AppsGrid />
               <Circle avatar={avatar} pressed={index === 0} />
             </div>
           ))}

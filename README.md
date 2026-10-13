@@ -1,6 +1,6 @@
 # Account Switcher for Google
 
-A Firefox extension for people signed in to several Google accounts. On the Google top page, your other accounts appear as a column of icons under your own, each with a Gmail link beside it. One click switches account or opens that account's inbox.
+A Firefox extension for people signed in to several Google accounts. On the Google top page, your other accounts appear as a column of icons under your own, each with a Gmail link and a Google apps button beside it. One click switches account, opens that account's inbox, or opens Google's app launcher for that account.
 
 ## Install
 

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Account Switcher for Google",
   "version": "0.1.0",
-  "description": "Lists your other Google accounts under your avatar on the Google top page, with a Gmail link for each. One click switches.",
+  "description": "Lists your other Google accounts under your avatar on the Google top page, with a Gmail link and a Google apps menu for each. One click switches.",
   "icons": {
     "16": "icons/icon-16.png",
     "32": "icons/icon-32.png",
